@@ -37,18 +37,15 @@ ancestry.forEach(function(person) {
 
 //My code
 
-//filters ancestry based on whether the person has a mother
 var hasMother = ancestry.filter(function(person) {
   return byName[person.mother] != null;
 });
 
-//given two person objects, returns the difference in age
 function ageDifference(person, mother) {
   return person.born - mother.born;
 };
 
 //returns the average difference for each person that has a mother
-//Maps the person to the difference
 var avgDifferences = average(hasMother.map(function(person) {
   var mother = byName[person.mother];
   return ageDifference(person, mother);
@@ -64,5 +61,55 @@ century by taking their year of death, dividing it by 100,
 and rounding it up, as in Math.ceil(person.died / 100).
 */
 
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
+}
 
+function groupBy(array, grouping) {
+  var groups = {};
+  array.forEach(function(element) {
+    var groupName = grouping(element);
+    if (groupName in groups)
+      groups[groupName].push(element);
+    else
+      groups[groupName] = [element];
+  });
+  return groups;
+}
+
+function determineCentury(person) {
+	return Math.ceil(person.died / 100);
+};
+
+var groupByCentury = groupBy(ancestry, determineCentury);
+  
+for (var century in groupByCentury) {
+	var lifeExpectancies = groupByCentury[century].map(function(person) {
+		return person.died - person.born;
+	});
+	console.log(century + ": " + average(lifeExpectancies));
+};
+
+/**** 5.4 Every And Then Some ****/
+
+/*
+every returns true only when the predicate returns true for all 
+elements of the array. some returns true as soon as the predicate
+returns true for any of the elements.
+*/
+
+function every(array, predicate) {
+  for(var i = 0; i < array.length; i++) {
+    if (!predicate(array[i])) return false;
+  }
+  return true;
+}
+
+function some(array, predicate) {
+  for(var i = 0; i < array.length; i++) {
+    if (predicate(array[i])) return true;
+  }
+  return false;
+}
 
