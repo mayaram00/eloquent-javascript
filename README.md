@@ -7,6 +7,7 @@ Completed Chapters (files labeled EJ_#):
 3. Chapter 6: The Secret Life of Objects
 4. Chapter 7: Electronic Life
 5. Chapter 8: Bugs and Error Handling
+6. Chapter 9: Regular Expressions
 
 
 
